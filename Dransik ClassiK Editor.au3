@@ -1,11 +1,16 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Res_Fileversion=0.0.0.12
+#AutoIt3Wrapper_Icon=Assets\Dransik Editor.ico
+#AutoIt3Wrapper_Outfile=Dransik ClassiK Editor0.0.0.13.exe
+#AutoIt3Wrapper_Res_Fileversion=0.0.0.14
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_ProductName=Dransik ClassiK Editor
-#AutoIt3Wrapper_Outfile=Dransik ClassiK Editor-%fileversion%.exe
+#AutoIt3Wrapper_Res_CompanyName=MacroIsFunLLc
 #AutoIt3Wrapper_Res_Language=1033
 #AutoIt3Wrapper_Res_Icon_Add=Assets\Dransik Editor.ico
 #AutoIt3Wrapper_Res_File_Add=Assets\Dransik Editor.ico, rt_icon, MAIN
+#AutoIt3Wrapper_Add_Constants=n
+#AutoIt3Wrapper_Run_Au3Stripper=y
+#Au3Stripper_Parameters=/sf
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
 #include <GUIConstantsEx.au3>
