@@ -1,7 +1,7 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 
-#AutoIt3Wrapper_Res_Fileversion=0.15.0.3
+#AutoIt3Wrapper_Res_Fileversion=0.0.0.2
 ; NOTE: %fileversion% is always the FULL auto-incremented version (4 parts).
 
 #AutoIt3Wrapper_Outfile=Dransik ClassiK Editor v.%fileversion%.exe
@@ -30,8 +30,8 @@
 ;           READ VERSION FROM COMPILED EXE (WORKS AT RUNTIME ONLY)
 ; ====================================================================================
 Local $sVersion = FileGetVersion(@ScriptFullPath)
-If @compiled = 0 Then $sVersion = " - InDev" ; fallback while running uncompiled
-$hGUI = GUICreate("Dransik ClassiK Editor"&$sVersion, 1200, 700)
+If @compiled = 0 Then $sVersion = "- InDev" ; fallback while running uncompiled
+$hGUI = GUICreate("Dransik ClassiK Editor "&$sVersion, 1200, 700)
 GUISetIcon(@ScriptDir & "\Assets\Dransik Editor.ico")
 
 
@@ -147,12 +147,17 @@ While True
     Local $msg = GUIGetMsg()
 
     ; Close button ends program
-    If $msg = $GUI_EVENT_CLOSE Then Exit
-
+    If $msg = $GUI_EVENT_CLOSE Then
+		ConsoleWrite ("Exit Clicked in GUI"&@CRLF)
+		Exit
+EndIf
 
     ; Loop through menu items and match clicks
     For $i = 0 To UBound($g_aMenuItems) - 1
-        If $msg = $g_aMenuItems[$i] Then
+        If $msg = $miExit Then
+			ConsoleWrite ("Exit Clicked in File Menu of GUI"&@CRLF)
+			Exit
+		ElseIf $msg = $g_aMenuItems[$i] Then
             ; Show numbered message
             MsgBox(64, "Menu Click", "Menu #" & ($i + 1) & " clicked — nothing added here yet.")
 
