@@ -1,7 +1,7 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 
-#AutoIt3Wrapper_Res_Fileversion=0.0.0.2
+#AutoIt3Wrapper_Res_Fileversion=0.0.0.3
 ; NOTE: %fileversion% is always the FULL auto-incremented version (4 parts).
 
 #AutoIt3Wrapper_Outfile=Dransik ClassiK Editor v.%fileversion%.exe
@@ -31,7 +31,7 @@
 ; ====================================================================================
 Local $sVersion = FileGetVersion(@ScriptFullPath)
 If @compiled = 0 Then $sVersion = "- InDev" ; fallback while running uncompiled
-$hGUI = GUICreate("Dransik ClassiK Editor "&$sVersion, 1200, 700)
+$hGUI = GUICreate("Dransik ClassiK Editor v."&$sVersion, 1200, 700)
 GUISetIcon(@ScriptDir & "\Assets\Dransik Editor.ico")
 
 
