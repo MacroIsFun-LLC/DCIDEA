@@ -150,13 +150,26 @@ While True
     If $msg = $GUI_EVENT_CLOSE Then
 		ConsoleWrite ("Exit Clicked in GUI"&@CRLF)
 		Exit
-EndIf
+	EndIf
 
     ; Loop through menu items and match clicks
     For $i = 0 To UBound($g_aMenuItems) - 1
         If $msg = $miExit Then
 			ConsoleWrite ("Exit Clicked in File Menu of GUI"&@CRLF)
 			Exit
+		ElseIf $msg = $miViewToolbar Then
+			ConsoleWrite ("Toobar Check Clicked" & @CRLF)
+			Exitloop
+		ElseIf $msg = $miViewStatusbar Then
+			ConsoleWrite ("Status Check Clicked" & @CRLF)
+			Exitloop
+		ElseIf $msg = 			$miMapPosition Then
+			ConsoleWrite ("Map Position Clicked" & @CRLF)
+			Exitloop
+
+		ElseIf $msg = $miAbout Then
+			ConsoleWrite ("About Clicked" & @CRLF)
+			Exitloop
 		ElseIf $msg = $g_aMenuItems[$i] Then
             ; Show numbered message
             MsgBox(64, "Menu Click", "Menu #" & ($i + 1) & " clicked — nothing added here yet.")
