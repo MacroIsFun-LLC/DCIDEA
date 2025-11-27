@@ -2,7 +2,6 @@
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 
 #AutoIt3Wrapper_Res_Fileversion=0.0.0.3
-; NOTE: %fileversion% is always the FULL auto-incremented version (4 parts).
 
 #AutoIt3Wrapper_Outfile=Dransik ClassiK Editor v.%fileversion%.exe
 #AutoIt3Wrapper_Res_ProductName=Dransik ClassiK Editor v.%fileversion%
@@ -17,10 +16,12 @@
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
 
+#include <ButtonConstants.au3>
 
 #include <GUIConstantsEx.au3>
 #include <GuiMenu.au3>
 #include <GuiStatusBar.au3>
+#include <GDIPlus.au3>
 
 ; ====================================================================================
 ;                               CREATE GUI WINDOW
@@ -34,6 +35,20 @@ If @compiled = 0 Then $sVersion = "- InDev" ; fallback while running uncompiled
 $hGUI = GUICreate("Dransik ClassiK Editor v."&$sVersion, 1200, 700)
 GUISetIcon(@ScriptDir & "\Assets\Dransik Editor.ico")
 
+
+; ===========================================================================
+;  STATUS BAR
+; ===========================================================================
+Global $aParts[2] = [120, -1]
+Local $hStatus  = _GUICtrlStatusBar_Create($hGUI)
+_GUICtrlStatusBar_SetParts($hStatus, $aParts)
+_GUICtrlStatusBar_SetText($hStatus, "Ready")
+
+GUISetState(@SW_SHOW)
+
+; Track visibility states for toolbar and status bar
+Local $fToolbarVisible   = True
+Local $fStatusbarVisible = True
 
 ; ====================================================================================
 ;                                      MENUBAR
@@ -154,9 +169,15 @@ While True
 
     ; Loop through menu items and match clicks
     For $i = 0 To UBound($g_aMenuItems) - 1
-        If $msg = $miExit Then
+
+
+
+		If $msg = $miExit Then
 			ConsoleWrite ("Exit Clicked in File Menu of GUI"&@CRLF)
 			Exit
+
+
+
 		ElseIf $msg = $miViewToolbar Then
 			ConsoleWrite ("Toobar Check Clicked" & @CRLF)
 			Exitloop
@@ -180,3 +201,37 @@ While True
     Next
 
 WEnd
+
+; ======================================================================
+;  CLIP A TILE FROM A TILEMAP (SPRITE STRIP) AND APPLY TO A BUTTON
+; ======================================================================
+Func ApplyTileToButton($hButton, $sBitmapPath, $iTileIndex, $iTileW = 15, $iTileH = 15)
+    _GDIPlus_Startup()
+
+    Local $hBitmap   = _GDIPlus_ImageLoadFromFile($sBitmapPath)
+    Local $hCropped  = _GDIPlus_BitmapCreateFromScan0($iTileW, $iTileH)
+    Local $hGraphic  = _GDIPlus_ImageGetGraphicsContext($hCropped)
+
+    ; X offset = tile index * width
+    Local $iSrcX = $iTileIndex * $iTileW
+
+    ; Clip from tilemap into cropped bitmap
+    _GDIPlus_GraphicsDrawImageRectRect( _
+        $hGraphic, $hBitmap, _
+        0, 0, $iTileW, $iTileH, _          ; destination
+        $iSrcX, 0, $iTileW, $iTileH _      ; source tile region
+    )
+
+    ; Save clipped tile as temp PNG (transparent-safe)
+    Local $sOut = @ScriptDir & "\Assets\tmp_tile_" & $iTileIndex & ".png"
+    _GDIPlus_ImageSaveToFile($hCropped, $sOut)
+
+    ; Apply icon to button
+    GUICtrlSetImage($hButton, $sOut)
+
+    ; Cleanup
+    _GDIPlus_GraphicsDispose($hGraphic)
+    _GDIPlus_ImageDispose($hCropped)
+    _GDIPlus_ImageDispose($hBitmap)
+    _GDIPlus_Shutdown()
+EndFunc
